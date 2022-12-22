@@ -304,7 +304,7 @@ const KITSUNE_ABI = [
 
 
     // Send the transaction
-    const swapTx = await kitsune.fillQuote(  
+    const swapTx = await kitsune.fillQuoteForTargetWETH(  
       daiforwethQuote.sellTokenAddress, 
       daiforwethQuote.buyTokenAddress, 
       daiforwethQuote.allowanceTarget, 

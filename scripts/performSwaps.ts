@@ -13,209 +13,123 @@ const MINIMAL_ERC20_ABI = [
   "function allowance(address owner, address spender) external view returns (uint256)",
 ];
 const KITSUNE_ABI = [
-    {
-      "inputs": [
-        {
-          "internalType": "contract IWETH",
-          "name": "_weth",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_exchangeProxy",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "contract IERC20",
-          "name": "sellToken",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "contract IERC20",
-          "name": "buyToken",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "boughtAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "BoughtTokens",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "WETH",
-      "outputs": [
-        {
-          "internalType": "contract IWETH",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "depositETH",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "exchangeProxy",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "components": [
-            {
-              "internalType": "contract IERC20",
-              "name": "sellToken",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "spender",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "swapTarget",
-              "type": "address"
-            },
-            {
-              "internalType": "bytes",
-              "name": "swapCallData",
-              "type": "bytes"
-            },
-            {
-              "internalType": "uint256",
-              "name": "sellAmount",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct Kitsune.OrderToWETH[]",
-          "name": "orders",
-          "type": "tuple[]"
-        }
-      ],
-      "name": "fillOrders",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "components": [
-            {
-              "internalType": "contract IERC20",
-              "name": "sellToken",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "spender",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "swapTarget",
-              "type": "address"
-            },
-            {
-              "internalType": "bytes",
-              "name": "swapCallData",
-              "type": "bytes"
-            },
-            {
-              "internalType": "uint256",
-              "name": "sellAmount",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct Kitsune.OrderToWETH",
-          "name": "order",
-          "type": "tuple"
-        }
-      ],
-      "name": "fillQuoteForTargetWETH",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdrawETH",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "contract IERC20",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdrawToken",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "stateMutability": "payable",
-      "type": "receive"
-    }
-  ];
+  {
+    "inputs": [
+      {
+        "internalType": "contract IWETH",
+        "name": "_weth",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_exchangeProxy",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract IERC20",
+        "name": "sellToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract IERC20",
+        "name": "buyToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "boughtAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "BoughtTokens",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "WETH",
+    "outputs": [
+      {
+        "internalType": "contract IWETH",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "exchangeProxy",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract IERC20",
+            "name": "sellToken",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "swapCallData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "uint256",
+            "name": "sellAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Kitsune.OrderToWETH[]",
+        "name": "orders",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "fillOrders",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+];
+
 const gas = [];
 
   //anonymous async function
@@ -238,14 +152,16 @@ const gas = [];
     const maticAddress = "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0" // MATIC
     const uniAddress = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984" // UNI
 
-    const sellAmount = ethers.utils.parseEther("100");
-    const sellAmountMatic = ethers.utils.parseEther("100")
-    const sellAmountUni = ethers.utils.parseEther("50")
-    const takerAddress = "0xEAeEdd62A7463F71F34d47431eD273cE6D9bE0d0"; // An account with sufficient balance on mainnet https://etherscan.io/address/0xeaeedd62a7463f71f34d47431ed273ce6d9be0d0
-    for (let i = 0; i < 10; i++) {
+
+    const sellAmountDai = ethers.utils.parseEther("10000");
+    const sellAmountMatic = ethers.utils.parseEther("25000")
+    const sellAmountUni = ethers.utils.parseEther("500")
+
+    const takerAddress = "0xC131701Ea649AFc0BfCc085dc13304Dc0153dc2e"; // An account with sufficient balance on mainnet https://etherscan.io/address/0xeaeedd62a7463f71f34d47431ed273ce6d9be0d0
+    for (let i = 0; i < 5; i++) {
     // Requests for the array
     const sellDaiforWeth = await axios.get(
-      `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmount}&sellToken=${daiAddress}`
+      `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountDai}&sellToken=${daiAddress}`
     );
     // Check for error from 0x API
     if (sellDaiforWeth.status !== 200) {
@@ -254,6 +170,8 @@ const gas = [];
     }
 
     const daiforwethQuote:any = await sellDaiforWeth.data
+    console.log("Orders for DAI -> WETH")
+    console.log(daiforwethQuote.orders)
 
     const sellMaticforWeth = await axios.get(
         `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountMatic}&sellToken=${maticAddress}`
@@ -265,6 +183,8 @@ const gas = [];
     }
     
     const maticforwethQuote:any = await sellMaticforWeth.data
+    console.log("Orders for MATIC -> WETH")
+    console.log(maticforwethQuote.orders)
 
     const sellUniforWeth = await axios.get(
         `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountUni}&sellToken=${uniAddress}`
@@ -277,6 +197,8 @@ const gas = [];
     }
 
     const uniforwethQuote:any = await sellUniforWeth.data
+    console.log("Orders for UNI -> WETH")
+    console.log(uniforwethQuote.orders)
 
     // const sellUSDTforWeth = await axios.get(
     //   `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountUSDT}&sellToken=${tetherAddress}`
@@ -289,7 +211,7 @@ const gas = [];
 
     // const usdtforwethQuote:any = await sellUSDTforWeth.data
 
-    console.log("You will get at least " +  ethers.utils.formatEther(daiforwethQuote.buyAmount)+ " WETH for " + ethers.utils.formatEther(sellAmount) + " DAI")
+    console.log("You will get at least " +  ethers.utils.formatEther(daiforwethQuote.buyAmount)+ " WETH for " + ethers.utils.formatEther(sellAmountDai) + " DAI")
     console.log("You will get at least " +  ethers.utils.formatEther(maticforwethQuote.buyAmount)+ " WETH for " + ethers.utils.formatEther(sellAmountMatic) + " MATIC")
     console.log("You will get at least " +  ethers.utils.formatEther(uniforwethQuote.buyAmount)+ " WETH for " + ethers.utils.formatEther(sellAmountUni) + " UNI")
     // console.log("You will get at least " +  ethers.utils.formatEther(sellUSDTforWeth.data.buyAmount)+ " WETH for " + ethers.utils.formatEther(sellAmount) + " USDT")
@@ -389,21 +311,18 @@ const gas = [];
             [
                 daiforwethQuote.sellTokenAddress, 
                 daiforwethQuote.allowanceTarget, 
-                daiforwethQuote.to, 
                 daiforwethQuote.data,
-                sellAmount.toBigInt()
+                sellAmountDai.toBigInt()
             ],
             [
                 maticforwethQuote.sellTokenAddress,
                 maticforwethQuote.allowanceTarget,
-                maticforwethQuote.to,
                 maticforwethQuote.data,
                 sellAmountMatic.toBigInt()
             ],
             [
                 uniforwethQuote.sellTokenAddress,
                 uniforwethQuote.allowanceTarget,
-                uniforwethQuote.to,
                 uniforwethQuote.data,
                 sellAmountUni.toBigInt()
             ]
