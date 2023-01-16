@@ -141,6 +141,12 @@ const gas = [];
     await kitsunecontract.deployed();
     console.log("Kitsune deployed to:", kitsunecontract.address);
 
+    //deploy token holder
+    const KitsuneFeeHolder = await ethers.getContractFactory("KitsuneFeeHolder")
+    const kitsunefeeholder = await KitsuneFeeHolder.deploy()
+    await kitsunecontract.deployed()
+    console.log("KitsuneFeeHolder deployed to: " + kitsunefeeholder.address)
+
     // Quote parameters
     const tetherAddress = "0xdac17f958d2ee523a2206206994597c13d831ec7"; // USDT
     const shibaAddress = "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE" // SHIBA
@@ -161,7 +167,7 @@ const gas = [];
     for (let i = 0; i < 5; i++) {
     // Requests for the array
     const sellDaiforWeth = await axios.get(
-      `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountDai}&sellToken=${daiAddress}`
+      `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountDai}&sellToken=${daiAddress}&feeRecipient=${kitsunefeeholder.address}&buyTokenPercentageFee=0.001`
     );
     // Check for error from 0x API
     if (sellDaiforWeth.status !== 200) {
@@ -170,11 +176,11 @@ const gas = [];
     }
 
     const daiforwethQuote:any = await sellDaiforWeth.data
-    console.log("Orders for DAI -> WETH")
-    console.log(daiforwethQuote.orders)
+    // console.log("Orders for DAI -> WETH")
+    // console.log(daiforwethQuote.orders)
 
     const sellMaticforWeth = await axios.get(
-        `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountMatic}&sellToken=${maticAddress}`
+        `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountMatic}&sellToken=${maticAddress}&feeRecipient=${kitsunefeeholder.address}&buyTokenPercentageFee=0.001`
         );
     // Check for error from 0x API
     if (sellMaticforWeth.status !== 200) {
@@ -183,11 +189,11 @@ const gas = [];
     }
     
     const maticforwethQuote:any = await sellMaticforWeth.data
-    console.log("Orders for MATIC -> WETH")
-    console.log(maticforwethQuote.orders)
+    // console.log("Orders for MATIC -> WETH")
+    // console.log(maticforwethQuote.orders)
 
     const sellUniforWeth = await axios.get(
-        `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountUni}&sellToken=${uniAddress}`
+        `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountUni}&sellToken=${uniAddress}&feeRecipient=${kitsunefeeholder.address}&buyTokenPercentageFee=0.001`
         );
 
     // Check for error from 0x API
@@ -197,8 +203,8 @@ const gas = [];
     }
 
     const uniforwethQuote:any = await sellUniforWeth.data
-    console.log("Orders for UNI -> WETH")
-    console.log(uniforwethQuote.orders)
+    // console.log("Orders for UNI -> WETH")
+    // console.log(uniforwethQuote.orders)
 
     // const sellUSDTforWeth = await axios.get(
     //   `https://api.0x.org/swap/v1/quote?buyToken=${wethAddress}&sellAmount=${sellAmountUSDT}&sellToken=${tetherAddress}`
@@ -353,8 +359,19 @@ const gas = [];
     console.log("DAI:", ethers.utils.formatEther(daiBalanceAfter));
     console.log("Matic:", ethers.utils.formatEther(maticBalanceAfter));
     console.log("UNI:", ethers.utils.formatEther(uniBalanceAfter));
+    
+    // const daiFees = dai.balanceOf(kitsunecontract.address)
+    // const maticFees = matic.balanceOf(kitsunecontract.address)
+    // const uniFees = uni.balanceOf(kitsunecontract.address)
+    const wethFees = await weth.balanceOf(kitsunefeeholder.address)
 
+    console.log(chalk.blue.bold("Fees collected by contract:"));
+    // console.log("DAI: " + daiFees)
+    // console.log("MATIC: " + maticFees)
+    // console.log("UNI: " + uniFees)
+    console.log(ethers.utils.formatEther(wethFees))
     }
+
 
     console.log(chalk.blue.bold("Gas used array: ", gas));
     const averageGas = gas.reduce((a, b) => a + b, 0) / gas.length;
