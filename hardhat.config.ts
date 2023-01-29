@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+require("hardhat-tracer");
 
 const config: HardhatUserConfig = {
   solidity: {
