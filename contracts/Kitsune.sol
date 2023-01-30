@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "hardhat/console.sol";
-
 // A partial ERC20 interface.
 interface IERC20 {
     function balanceOf(address owner) external view returns (uint256);
@@ -22,8 +20,6 @@ interface IERC20 {
 interface IWETH is IERC20 {
     function deposit() external payable;
 }
-
-import "hardhat/console.sol";
 
 contract Kitsune {
     // The WETH contract.
@@ -48,12 +44,7 @@ contract Kitsune {
     }
 
     function tokensToETH(Order[] calldata orders) public {
-
- 
-
         uint256 boughtAmount = address(this).balance;
-
- 
 
         for (uint256 i = 0; i < orders.length; i++) {
             Order memory order = orders[i];
@@ -68,7 +59,6 @@ contract Kitsune {
             // Approve the tokens being sold to be used by 0x ExchangeProxy.
             require(order.sellToken.approve(order.spender, type(uint256).max));
 
-
             // Execute the swap.
             (bool success, ) = exchangeProxy.call(order.swapCallData);
 
@@ -76,7 +66,6 @@ contract Kitsune {
             require(success, "SWAP_CALL_FAILED");
         }
 
-        
         boughtAmount = address(this).balance - boughtAmount;
 
         payable(msg.sender).transfer(boughtAmount);
@@ -168,5 +157,4 @@ contract Kitsune {
     }
 
     receive() external payable {}
-
 }
