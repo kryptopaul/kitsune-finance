@@ -6,6 +6,7 @@ const log = console.log;
 import deploy from "./deploy";
 import addresses from "../helpers/mainnet";
 import MINIMAL_ERC20_ABI from "../helpers/ERC20ABI";
+import logo from "../helpers/logo";
 
 // This demo will swap a few tokens to ETH on a mainnet fork.
 // Make sure you've started a mainnet fork with `npx hardhat node --fork <rpc url>`.
@@ -17,17 +18,17 @@ const orders: Order[] = [
     {
         name: addresses.comp.name,
         address: addresses.comp.address,
-        amount: ethers.utils.parseUnits("125", 18)
+        amount: "125"
     },
     {
         name: addresses.uni.name,
         address: addresses.uni.address,
-        amount: ethers.utils.parseUnits("500", 18)
+        amount: "500"
     },
     {
         name: addresses.matic.name,
         address: addresses.matic.address,
-        amount: ethers.utils.parseUnits("2000", 18)
+        amount: "2000"
     }
 ];
 
@@ -36,11 +37,12 @@ const orders: Order[] = [
 
 const takerAddress = "0xC131701Ea649AFc0BfCc085dc13304Dc0153dc2e";
 
-const tries = 3;
+const tries = 1;
 
 
 (async () => {
 
+    console.log(chalk.hex('#d17f3d').bold("🦊 Welcome to Kitsune Finance! 🦊"));
     // Impersonate the account we are going to use to simulate transactions.
     await network.provider.request({
         method: "hardhat_impersonateAccount",
@@ -55,16 +57,18 @@ const tries = 3;
 
     // Get the Kitsune contract instance.
     const kitsune = await ethers.getContractAt("Kitsune", kitsuneAddress, signer);
-    
+
 
     for (let i = 0; i < tries; i++) {
+
+
         // Get quotes from the 0x API.
         const orders0x = [];
 
 
         for (let i = 0; i < orders.length; i++) {
             const order: Order = orders[i];
-            const quote = await axios.get(`https://api.0x.org/swap/v1/quote?buyToken=ETH&sellToken=${order.address}&sellAmount=${order.amount.toString()}`);
+            const quote = await axios.get(`https://api.0x.org/swap/v1/quote?buyToken=ETH&sellToken=${order.address}&sellAmount=${ethers.utils.parseUnits(order.amount, 18).toString()}`);
             orders0x.push({
                 sellToken: quote.data.sellTokenAddress,
                 spender: quote.data.allowanceTarget,
@@ -88,7 +92,7 @@ const tries = 3;
 
 
 
-        console.log(chalk.blue("Balances before:"));
+        console.log(chalk.blue("💰 Balances before:"));
         console.table(balancesBefore);
 
         // Aprove the tokens to be swapped. Now it's up to the order amount but I think about changing it to the max uint256.
@@ -97,14 +101,14 @@ const tries = 3;
             const token = new ethers.Contract(order.address, MINIMAL_ERC20_ABI, signer);
             const tx = await token.approve(kitsuneAddress, ethers.constants.MaxUint256);
             await tx.wait();
-            console.log(chalk.green(`Approved ${order.name} to be swapped.`));
+            console.log(chalk.yellow(`🔘 Approved ${order.name} to be swapped.`));
         }
 
 
         // Swap tokens to ETH.
         const tx = await kitsune.tokensToETH(orders0x);
         await tx.wait();
-        console.log(chalk.green("Tokens swapped to ETH."));
+        console.log(chalk.green.underline("💱 Tokens swapped to ETH."));
 
 
 
@@ -119,11 +123,10 @@ const tries = 3;
             const tokenBalanceAfter = await token.balanceOf(takerAddress);
             balancesAfter.push({ token: order.name, balance: ethers.utils.formatUnits(tokenBalanceAfter, 18) });
         }
-
-        console.log(chalk.blue("Balances after:"));
+        
+        console.log(chalk.blue("💰 Balances after:"));
         console.table(balancesAfter);
     }
 
-    console.log(chalk.blue("Gas used:"));
 
 })();

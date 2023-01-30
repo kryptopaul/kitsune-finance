@@ -8,7 +8,7 @@ declare global {
     interface Order {
         name: string;
         address: string;
-        amount: BigNumber;
+        amount: string;
     }
 
     interface KitsuneOrder {
