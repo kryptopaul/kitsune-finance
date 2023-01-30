@@ -92,7 +92,7 @@ const tries = 1;
 
 
 
-        console.log(chalk.blue("💰 Balances before:"));
+        console.log(chalk.cyan("💰 Balances before:"));
         console.table(balancesBefore);
 
         // Aprove the tokens to be swapped. Now it's up to the order amount but I think about changing it to the max uint256.
@@ -124,7 +124,7 @@ const tries = 1;
             balancesAfter.push({ token: order.name, balance: ethers.utils.formatUnits(tokenBalanceAfter, 18) });
         }
         
-        console.log(chalk.blue("💰 Balances after:"));
+        console.log(chalk.cyan("💰 Balances after:"));
         console.table(balancesAfter);
     }
 
