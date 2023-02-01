@@ -13,3 +13,7 @@ const addresses = {
 };
 
 export default addresses;
+
+// TODO
+// ADD USDT
+// ADD WBTC
